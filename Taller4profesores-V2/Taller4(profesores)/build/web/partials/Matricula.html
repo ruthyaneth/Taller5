@@ -1,0 +1,96 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default" ng-click="nuevo()">Nuevo Matricula</button>
+    <button type="button" class="btn btn-default" ng-click="cancelar()">Listar Matricula</button>
+</div>
+
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Matricula</div>
+    <div class="panel-body">
+        <table class="resultados table table-striped">
+            <tr>
+                <th>
+                    Año
+                </th>
+                <th>
+                    Semestre
+                </th>
+                <th>
+                    Estudiante
+                </th>
+                <th>
+                    Materia
+                </th>
+
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+            <tr ng-repeat="row in lista">
+                <td>{{row.anno}}</td>
+                <td>{{row.semestre}}</td>
+                <td>{{row.estudiantes.nombre}}</td>
+                <td>{{row.materias.nombre}}</td>
+
+                <td class="row">
+                    <button type="button" class="btn btn-default" ng-click="editar(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>Editar
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                        <span class="glyphicon glyphicon-remove"></span>Eliminar
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Matricula</div>
+    <div class="panel-body">
+        <form role="form" id="formularioEditar">
+            <div class="row">
+                <div class="form-group col-md-6" ng-class="errores.anno ? 'error' : ''">
+                    <label for="anno">Año</label>
+                    <input id="anno" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.anno"
+                           placeholder="año"/>
+                    <div ng-show="errores.anno">{{errores.anno}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.semestre ? 'error' : ''">
+                    <label for="semestre">Semestre</label>
+                    <input id="semestre" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.semestre"
+                           placeholder="semestre"/>
+                    <div ng-show="errores.semestre">{{errores.semestre}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label>Estudiante</label>
+                    <select id="estudiantes" class="form-control" 
+                            ng-model="datosFormulario.estudiantes"
+                            ng-options="option.nombre for option in listaEstudiante track by option.nombre"
+                            ng-change="mostrarMateria()">
+                    </select>
+                    <div ng-show="errores.estudiantes">{{errores.estudiantes}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label>Materia</label>
+                    <select id="listaCarreras" class="form-control" 
+                            ng-model="datosFormulario.listaCarreras"
+                            ng-options="option.nombre for option in listaCarreras track by option.nombre">
+                    </select>
+                    <div ng-show="errores.listaCarreras">{{errores.listaCarreras}}</div>
+                </div>
+            </div> 
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="guardar()">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,230 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default" ng-click="nuevo()">Nuevo Estudiante</button>
+    <button type="button" class="btn btn-default" ng-click="cancelar()">Listar Estudiante</button>
+</div>
+
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Estudiante</div>
+    <div class="panel-body">
+        <table class="resultados table table-striped">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+
+                <th>
+                    Apellido
+                </th>
+
+                <th>
+                    Codigo
+                </th>
+
+                <th>
+                    Documento
+                </th>
+
+                <th>
+                    FechaNacimiento
+                </th>
+
+                <th>
+                    Municipio
+                </th>
+
+                <th>
+                    Carrera
+                </th>
+
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+            <tr ng-repeat="row in lista">
+                <td>{{row.nombre}}</td>
+                <td>{{row.apellido}}</td>
+                <td>{{row.codigo}}</td>
+                <td>{{row.documento}}</td>
+                <td>{{row.fechaNacimiento| date: 'dd/MM/yyyy'}}</td>
+
+                <td class="row">{{row.municipios.nombre}}</td> 
+                <td class="row">{{row.carreras.nombre}}</td> 
+                <td class="row">
+                    <button type="button" class="btn btn-default" ng-click="editar(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>Editar
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                        <span class="glyphicon glyphicon-remove"></span>Eliminar
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Estudiante</div>
+    <div class="panel-body">
+        <form role="form" id="formularioEditar">
+            <div class="row">
+                <div class="form-group col-md-6" ng-class="errores.nombre ? 'error' : ''">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.nombre"
+                           placeholder="nombre"/>
+                    <div ng-show="errores.nombre">{{errores.nombre}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.apellido ? 'error' : ''">
+                    <label for="apellido">Apellido</label>
+                    <input id="apellido" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.apellido"
+                           placeholder="apellido"/>
+                    <div ng-show="errores.apellido">{{errores.apellido}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.codigo ? 'error' : ''">
+                    <label for="codigo">Codigo</label>
+                    <input id="codigo" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.codigo"
+                           placeholder="codigo"/>
+                    <div ng-show="errores.codigo">{{errores.codigo}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.documento ? 'error' : ''">
+                    <label for="documento">Documento</label>
+                    <input id="documento" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.documento"
+                           placeholder="documento"/>
+                    <div ng-show="errores.documento">{{errores.documento}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.fechaNacimiento ? 'error' : ''">
+                    <label for="fechaNacimiento">fechaNacimiento</label>
+                    <div class="input-group">
+                        <input id="fechaNacimiento" 
+                               class="form-control datepicker" 
+                               type="text" 
+                               ng-model="datosFormulario.fechaNacimiento"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    <script>
+                        $('#fechaNacimiento').datepicker({format: 'dd/mm/yyyy', language: "es"})
+                                .on('changeDate', function (ev) {
+                                dp_fechaNacimiento.hide();
+                                }).data('datepicker');
+                    </script>
+                    <div ng-show="errores.fechaNacimiento">{{errores.fechaNacimiento}}</div>
+                </div>
+            </div> 
+
+            <div class="row">
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label>municipio</label>
+                    <select id="municipio" class="form-control" 
+                            ng-model="datosFormulario.municipio"
+                            ng-options="option.nombre for option in listaMunicipio track by option.id">
+                    </select>
+                    <div ng-show="errores.municipio">{{errores.municipio}}</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label>carrera</label>
+                    <select id="carrera" class="form-control" 
+                            ng-model="datosFormulario.carrera"
+                            ng-options="option.nombre for option in listaCarrera track by option.id">
+                    </select>
+                    <div ng-show="errores.carrera">{{errores.carrera}}</div>
+                </div>
+            </div>
+
+
+
+
+            <div ng-controller="AppCtrl" ng-cloak>
+                <md-content layout-padding>
+                    <div layout-gt-xs="row">
+                        <div flex-gt-xs>
+                            <h4>Standard date-picker</h4>
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+                        </div>
+                        <div flex-gt-xs>
+                            <h4>Disabled date-picker</h4>
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date" disabled></md-datepicker>
+                        </div>
+                    </div>
+                    <div layout-gt-xs="row">
+                        <div flex-gt-xs>
+                            <h4>Date-picker with min date and max date</h4>
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"
+                                           md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+                        </div>
+                        <div flex-gt-xs>
+                            <h4>Only weekends are selectable</h4>
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"
+                                           md-date-filter="onlyWeekendsPredicate"></md-datepicker>
+                        </div>
+                    </div>
+                    <div layout-gt-xs="row">
+                        <div flex-gt-xs>
+                            <h4>Only weekends within given range are selectable</h4>
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"
+                                           md-min-date="minDate" md-max-date="maxDate"
+                                           md-date-filter="onlyWeekendsPredicate"></md-datepicker>
+                        </div>
+                        <div flex-gt-xs>
+                            <h4>Opening the calendar when the input is focused</h4>
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"
+                                           md-open-on-focus></md-datepicker>
+                        </div>
+                    </div>
+                    <div layout-gt-xs="row">
+                        <form name="myForm" flex-gt-xs>
+                            <h4>With ngMessages</h4>
+                            <md-datepicker name="dateField" ng-model="myDate" md-placeholder="Enter date"
+                                           required md-min-date="minDate" md-max-date="maxDate"
+                                           md-date-filter="onlyWeekendsPredicate"></md-datepicker>
+                            <div class="validation-messages" ng-messages="myForm.dateField.$error">
+                                <div ng-message="valid">The entered value is not a date!</div>
+                                <div ng-message="required">This date is required!</div>
+                                <div ng-message="mindate">Date is too early!</div>
+                                <div ng-message="maxdate">Date is too late!</div>
+                                <div ng-message="filtered">Only weekends are allowed!</div>
+                            </div>
+                        </form>
+                        <form name="myOtherForm" flex-gt-xs>
+                            <h4>Inside a md-input-container</h4>
+                            <md-input-container>
+                                <label>Enter date</label>
+                                <md-datepicker ng-model="myDate" name="dateField" md-min-date="minDate"
+                                               md-max-date="maxDate"></md-datepicker>
+                                <div ng-messages="myOtherForm.dateField.$error">
+                                    <div ng-message="valid">The entered value is not a date!</div>
+                                    <div ng-message="required">This date is required!</div>
+                                    <div ng-message="mindate">Date is too early!</div>
+                                    <div ng-message="maxdate">Date is too late!</div>
+                                </div>
+                            </md-input-container>
+                        </form>
+                    </div>
+                </md-content>
+            </div>
+
+
+
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="guardar()">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+

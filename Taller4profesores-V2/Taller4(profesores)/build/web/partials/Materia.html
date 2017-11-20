@@ -1,0 +1,241 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default" ng-click="nuevo()">Nuevo Materia</button>
+    <button type="button" class="btn btn-default" ng-click="cancelar()">Listar Materia</button>
+</div>
+
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Materia</div>
+    <div class="panel-body">
+        <table class="resultados table table-striped">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+
+                <th>
+                    Creditos
+                </th>
+
+                <th>
+                    Horario
+                </th>
+
+                <th>
+                    Profesor
+                </th>
+                <th>
+                    Carrera
+                </th>
+
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+            <tr ng-repeat="row in lista">
+                <td>{{row.nombre}}</td>
+                <td>{{row.creditos}}</td>
+
+                <td class="row">{{row.nombreHorario}}</td>
+                <td class="row">{{row.profesor.nombre}}</td>
+                <td class="row">{{row.carreras.nombre}}</td>
+                <td class="row">
+                    <button type="button" class="btn btn-default" ng-click="editar(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>Editar
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                        <span class="glyphicon glyphicon-remove"></span>Eliminar
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Materia</div>
+    <div class="panel-body">
+        <form role="form" id="formularioEditar">
+            <div class="row">
+                <div class="form-group col-md-6" ng-class="errores.nombre ? 'error' : ''">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.nombre"
+                           placeholder="nombre"/>
+                    <div ng-show="errores.nombre">{{errores.nombre}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.creditos ? 'error' : ''">
+                    <label for="creditos">Creditos</label>
+                    <input id="creditos" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.creditos"
+                           placeholder="creditos"/>
+                    <div ng-show="errores.creditos">{{errores.creditos}}</div>
+                </div>
+            </div> 
+
+            <div class="row">
+
+                <div class="form-group col-md-6" ng-class="errores.profesor ? 'error' : ''">
+                    <label for="profesor">Profesor</label>
+                    <select id="profesor" class="form-control" 
+                            ng-model="datosFormulario.profesor"
+                            ng-options="option.nombre for option in listaProfesor track by option.nombre">
+                    </select>
+                    <div ng-show="errores.profesor">{{errores.profesor}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.carreras ? 'error' : ''">
+                    <label for="carreras">Carrera</label>
+                    <select id="carreras" class="form-control" 
+                            ng-model="datosFormulario.carreras"
+                            ng-options="option.nombre for option in listaCarrera track by option.nombre">
+                    </select>
+                    <div ng-show="errores.carreras">{{errores.carreras}}</div>
+                </div>
+                <div class="form-group col-md-6" ng-class="errores.horarios ? 'error' : ''">
+                    <label for="horarios">Horarios</label>
+                    <select id="horarios" class="form-control" 
+                            ng-model="datosFormulario.nombreHorario"
+                            ng-options="option.nombreHorario for option in listaHorario1 track by option.nombreHorario">
+                    </select>
+                    <div ng-show="errores.horarios">{{errores.horarios}}</div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="nuevoHorario()">Nuevo Horario</button>
+                <button type="button" class="btn btn-default" ng-click="cancelarHorario()">Listar Horario</button>
+            </div>
+
+            <!--componentes de la ventana de la lista-->
+            <div class="panel panel-primary" ng-hide="panelEditarHorario">
+                <div class="panel-heading">Parametrizaci&oacute;n de Horario</div>
+                <div class="panel-body">
+                    <table class="resultados table table-striped">
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                L
+                            </th>
+                            <th>
+                                M
+                            </th>
+                            <th>
+                                X
+                            </th>
+                            <th>
+                                J
+                            </th>
+                            <th>
+                                V
+                            </th>
+                            <!--esto es para completar el estilo de la fila en pantalla-->
+                            <th>
+                                &nbsp;
+                            </th>
+
+                        </tr>
+                        <tr ng-repeat="row in listaHorario1">
+                            <td>{{row.nombreHorario}}</td>
+                            <td>{{row.l}}</td>
+                            <td>{{row.m}}</td>
+                            <td>{{row.x}}</td>
+                            <td>{{row.j}}</td>
+                            <td>{{row.v}}</td>
+
+                            <td class="row">
+                                <button type="button" class="btn btn-default" ng-click="editarHorario(row)">
+                                    <span class="glyphicon glyphicon-pencil"></span>Editar
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="eliminarHorario(row)">
+                                    <span class="glyphicon glyphicon-remove"></span>Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                </div>
+            </div>
+
+            <!--componentes de la ventana de edicion-->
+            <div class="panel panel-primary" ng-show="panelEditarHorario">
+                <div class="panel-heading">Parametrizaci&oacute;n de Horario</div>
+                <div class="panel-body">
+                    <form role="form" id="formularioEditar">
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="errores.nombreHorario ? 'error' : ''">
+                                <label for="nombreHorario">Nombre</label>
+                                <input id="nombreHorario" 
+                                       class="form-control" 
+                                       type="text"
+                                       ng-model="datosFormularioHorario1.nombreHorario"
+                                       placeholder="nombre del Horario"/>
+                                <div ng-show="errores.nombreHorario">{{errores.nombreHorario}}</div>
+                            </div>
+                            <div class="form-group col-md-6" ng-class="errores.l ? 'error' : ''">
+                                <label for="l">Lunes</label>
+                                <input id="l" 
+                                       class="form-control" 
+                                       type="text"
+                                       ng-model="datosFormularioHorario1.l"
+                                       placeholder="Horario del lunes"/>
+                                <div ng-show="errores.l">{{errores.l}}</div>
+                            </div>
+                            <div class="form-group col-md-6" ng-class="errores.m ? 'error' : ''">
+                                <label for="m">Martes</label>
+                                <input id="m" 
+                                       class="form-control" 
+                                       type="text"
+                                       ng-model="datosFormularioHorario1.m"
+                                       placeholder="Horario del martes"/>
+                                <div ng-show="errores.m">{{errores.m}}</div>
+                            </div>
+                            <div class="form-group col-md-6" ng-class="errores.x ? 'error' : ''">
+                                <label for="x">X-miercoles</label>
+                                <input id="x" 
+                                       class="form-control" 
+                                       type="text"
+                                       ng-model="datosFormularioHorario1.x"
+                                       placeholder="Horario del miercoles"/>
+                                <div ng-show="errores.x">{{errores.x}}</div>
+                            </div>
+                            <div class="form-group col-md-6" ng-class="errores.j ? 'error' : ''">
+                                <label for="j">Jueves</label>
+                                <input id="j" 
+                                       class="form-control" 
+                                       type="text"
+                                       ng-model="datosFormularioHorario1.j"
+                                       placeholder="Horario del jueves"/>
+                                <div ng-show="errores.j">{{errores.j}}</div>
+                            </div>
+                            <div class="form-group col-md-6" ng-class="errores.v ? 'error' : ''">
+                                <label for="v">Viernes</label>
+                                <input id="v" 
+                                       class="form-control" 
+                                       type="text"
+                                       ng-model="datosFormularioHorario1.v"
+                                       placeholder="Horario del viernes"/>
+                                <div ng-show="errores.v">{{errores.v}}</div>
+                            </div>
+                        </div> 
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-click="guardarHorario()">Aceptar</button>
+                            <button type="button" class="btn btn-default" ng-click="cancelarHorario()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="guardar()">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
